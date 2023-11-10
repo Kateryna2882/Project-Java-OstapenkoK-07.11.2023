@@ -1,18 +1,21 @@
+import java.util.Arrays;
+
 public class ArrayValueCalculator {
-    public static int doCals(String[][] array) throws ArraySizeException, ArrayDataException {
-        if (array.length != 4 || array[0].length != 4) {
-            throw new ArraySizeException("Input array must be 4x4 in size.");
+    public static int doCals(String[][] values) throws ArraySizeException, ArrayDataException {
+        if (values.length != 4 ||
+                Arrays.stream(values).anyMatch(row -> row.length != 4)) {
+            throw new ArraySizeException("Invalid matrix size.");
         }
+
         int sum = 0;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
+        for (int i = 0; i < values.length; i++) {
+            for (int j = 0; j < values[i].length; j++) {
                 try {
-                    int value = Integer.parseInt(array[i][j]);
-                    sum += value;
+                    sum += Integer.parseInt(values[i][j]);
                 } catch (NumberFormatException e) {
                     throw new
-                            ArrayDataException("Invalid data at position ( "
-                            + i + " , " + j + " ) : " + array[i][j], e);
+                            ArrayDataException("Invalid data at position [ " + i + "] [ " + j + " ] ");
+
                 }
             }
         }
